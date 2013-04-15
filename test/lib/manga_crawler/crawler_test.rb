@@ -4,7 +4,7 @@ describe MangaCrawler::Crawler do
 
   crawler = MangaCrawler::Crawler.new
 
-  it "must get mangas" do
+  it "must retrieve mangas" do
     
     sample_index = File.open("test/samples/index-page.html")
     css_path = "a"
@@ -17,7 +17,7 @@ describe MangaCrawler::Crawler do
                         ["One Piece", "/third-manga"] ]
   end
 
-  it "must get chapters" do
+  it "must retrieve chapters" do
     
     sample_manga_page = File.open("test/samples/manga-page.html")
     css_path = "a"
@@ -39,5 +39,19 @@ describe MangaCrawler::Crawler do
     image = crawler.get_image_from_page sample_image_page, css_path, html_field
 
     image.must_equal "image.jpg"
+  end
+
+  it "must retrieve all pages links from a chapter" do
+
+    sample_image_page = File.open("test/samples/image-page.html")
+    css_path = "#pageMenu option"
+    html_field = :value
+    
+    pages_links = crawler.get_pages_links_from_chapter sample_image_page, css_path, html_field
+
+    pages_links.must_equal [ ["1", "/first-manga/1/1"],
+                             ["2", "/first-manga/1/2"], 
+                             ["3", "/first-manga/1/3"] ]
+
   end
 end
