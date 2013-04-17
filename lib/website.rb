@@ -1,5 +1,5 @@
 require "website/parameters"
-require "website/index"
+require "website/page"
 
 module Website
   
