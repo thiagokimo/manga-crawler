@@ -54,11 +54,6 @@ module MangaCrawler
 
     end
 
-    # Returns all pages HTML links from a chapter
-    # Params:
-    # +chapter_link+:: Link of the chapter
-    # +css_path+:: CSS path to the block with the pages links
-    # +html_field+:: HTML field that contains the url
     def get_pages_links_from_chapter chapter_website
 
       result = Array.new
