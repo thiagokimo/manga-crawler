@@ -7,6 +7,7 @@ describe Website::Page do
 
   it "must have parameters" do
     page.params.wont_be_nil
+    lambda { Website::Page.new(nil) }.must_raise(RuntimeError)
   end
 
   it "params must be an instance of Website::Parameters" do
