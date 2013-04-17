@@ -11,5 +11,6 @@ describe Website::Page do
 
   it "params must be an instance of Website::Parameters" do
     lambda { Website::Page.new("invalid params") }.must_raise(RuntimeError)
+    lambda { Website::Page.new(params) }.must_be_silent
   end
 end
