@@ -40,14 +40,16 @@ module MangaCrawler
     # +css_image_path+:: CSS path to the image
     # +image_html_field+:: HTML field with the direct's image url
     # +url_base+:: Site´s base url
-    def get_pages chapter_link, css_pages_path, pages_html_field, css_image_path, image_html_field, url_base
+    def get_pages chapter_website, image_website
       
       result = Array.new
 
-      pages_links = get_pages_links_from_chapter url_base + chapter_link, css_pages_path, pages_html_field
+      pages_links = get_pages_links_from_chapter chapter_website.params.base_url + chapter_website.params.current_url, 
+                                                  chapter_website.params.css_path, chapter_website.params.html_field
 
       pages_links.each do |page|
-        result.push( get_image_from_page url_base + page[1], css_image_path, image_html_field )
+        result.push( get_image_from_page image_website.params.base_url + page[1], image_website.params.css_path, 
+                                                                                    image_website.params.html_field )
       end
 
       return result
@@ -69,11 +71,11 @@ module MangaCrawler
       return result
     end
 
-    def get_image_from_page image_page
+    def get_image_from_page image_website
 
-      html_image = Nokogiri::HTML(open(image_page.params.current_url))
+      html_image = Nokogiri::HTML(open(image_website.params.current_url))
 
-      image_link = html_image.at_css(image_page.params.css_path)[image_page.params.html_field]
+      image_link = html_image.at_css(image_website.params.css_path)[image_website.params.html_field]
 
       return image_link
     end

@@ -68,4 +68,8 @@ describe MangaCrawler::Crawler do
                              ["3", "/first-manga/1/3"] ]
 
   end
+
+  it "must get all direct image links from a chapter" do
+    
+  end
 end
