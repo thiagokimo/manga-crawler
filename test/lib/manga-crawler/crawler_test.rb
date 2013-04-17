@@ -4,7 +4,7 @@ describe MangaCrawler::Crawler do
 
   crawler = MangaCrawler::Crawler.new
   base_url = "localhost"
-  
+
   it "must retrieve mangas" do
 
     
@@ -44,7 +44,10 @@ describe MangaCrawler::Crawler do
     css_path = "#img"
     html_field = :src
 
-    image = crawler.get_image_from_page sample_image_page, css_path, html_field
+    image_page_parameters = Website::Parameters.new(base_url, sample_image_page, css_path, html_field)
+    image_page = Website::Page.new(image_page_parameters)
+
+    image = crawler.get_image_from_page image_page
 
     image.must_equal "image.jpg"
   end

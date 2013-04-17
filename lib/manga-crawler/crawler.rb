@@ -74,16 +74,11 @@ module MangaCrawler
       return result
     end
 
-    # Returns the image's direct url of a manga page
-    # Params:
-    # +page_link+:: HTML page who contains the image
-    # +css_path+:: CSS path to the image
-    # +html_field+:: field that contains the url
-    def get_image_from_page page_link, css_path, html_field
+    def get_image_from_page image_page
 
-      html_image = Nokogiri::HTML(open(page_link))
+      html_image = Nokogiri::HTML(open(image_page.params.current_url))
 
-      image_link = html_image.at_css(css_path)[html_field]
+      image_link = html_image.at_css(image_page.params.css_path)[image_page.params.html_field]
 
       return image_link
     end
