@@ -12,8 +12,8 @@ describe MangaCrawler::Crawler do
     css_path = "a"
     html_field = :href
 
-    index_page_parameters = Website::Parameters.new(base_url, sample_index_page, css_path, html_field)
-    index_page = Website::Page.new(index_page_parameters)
+    params = Website::Parameters.new(base_url, sample_index_page, css_path, html_field)
+    index_page = Website::Page.new(params)
     
     mangas = crawler.get_mangas index_page
 
@@ -28,8 +28,8 @@ describe MangaCrawler::Crawler do
     css_path = "a"
     html_field = :href
 
-    chapters_page_parameters = Website::Parameters.new(base_url, sample_manga_page, css_path, html_field)
-    manga_page = Website::Page.new(chapters_page_parameters)
+    params = Website::Parameters.new(base_url, sample_manga_page, css_path, html_field)
+    manga_page = Website::Page.new(params)
 
     chapters = crawler.get_chapters manga_page
 
@@ -44,8 +44,8 @@ describe MangaCrawler::Crawler do
     css_path = "#img"
     html_field = :src
 
-    image_page_parameters = Website::Parameters.new(base_url, sample_image_page, css_path, html_field)
-    image_page = Website::Page.new(image_page_parameters)
+    params = Website::Parameters.new(base_url, sample_image_page, css_path, html_field)
+    image_page = Website::Page.new(params)
 
     image = crawler.get_image_from_page image_page
 
@@ -57,8 +57,11 @@ describe MangaCrawler::Crawler do
     sample_image_page = File.open("test/samples/image-page.html")
     css_path = "#pageMenu option"
     html_field = :value
+
+    params = Website::Parameters.new(base_url, sample_image_page, css_path, html_field)
+    pages = Website::Page.new(params)
     
-    pages_links = crawler.get_pages_links_from_chapter sample_image_page, css_path, html_field
+    pages_links = crawler.get_pages_links_from_chapter pages
 
     pages_links.must_equal [ ["1", "/first-manga/1/1"],
                              ["2", "/first-manga/1/2"], 

@@ -4,18 +4,18 @@ require 'open-uri'
 module MangaCrawler
   class Crawler
 
-    def get_mangas website_index
+    def get_mangas index_website
 
       result = Array.new
 
-      html_index = Nokogiri::HTML(open(website_index.params.current_url))
+      html_index = Nokogiri::HTML(open(index_website.params.current_url))
 
       #find all content that matches with the css_path
-      links = html_index.css(website_index.params.css_path)
+      links = html_index.css(index_website.params.css_path)
 
       #find all content from the anchor nodes found in last search
       links.each do |anchor|
-        result.push([anchor.content, anchor[website_index.params.html_field]])
+        result.push([anchor.content, anchor[index_website.params.html_field]])
       end
 
       #TODO
@@ -25,10 +25,10 @@ module MangaCrawler
       return result
     end
 
-    def get_chapters website_manga
+    def get_chapters manga_website
       #TODO
       #uses the same logic of get_mangas
-      return get_mangas website_manga
+      return get_mangas manga_website
     end
 
     # Returns the direct links of all pages from a specific chapter. It uses two
@@ -59,16 +59,16 @@ module MangaCrawler
     # +chapter_link+:: Link of the chapter
     # +css_path+:: CSS path to the block with the pages links
     # +html_field+:: HTML field that contains the url
-    def get_pages_links_from_chapter chapter_link, css_path, html_field
+    def get_pages_links_from_chapter chapter_website
 
       result = Array.new
 
-      chapter_page = Nokogiri::HTML(open(chapter_link))
+      chapter_page = Nokogiri::HTML(open(chapter_website.params.current_url))
 
-      pages_links = chapter_page.css(css_path)
+      pages_links = chapter_page.css(chapter_website.params.css_path)
 
       pages_links.each do |option|
-        result.push([option.content, option[html_field]])
+        result.push([option.content, option[chapter_website.params.html_field]])
       end
 
       return result
