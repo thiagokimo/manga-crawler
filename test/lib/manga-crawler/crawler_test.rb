@@ -3,14 +3,19 @@ require "test_helper"
 describe MangaCrawler::Crawler do
 
   crawler = MangaCrawler::Crawler.new
-
+  base_url = "localhost"
+  
   it "must retrieve mangas" do
+
     
-    sample_index = File.open("test/samples/index-page.html")
+    sample_index_page = File.open("test/samples/index-page.html")
     css_path = "a"
     html_field = :href
+
+    index_page_parameters = Website::Parameters.new(base_url, sample_index_page, css_path, html_field)
+    index_page = Website::Page.new(index_page_parameters)
     
-    mangas = crawler.get_mangas sample_index, css_path, nil, html_field
+    mangas = crawler.get_mangas index_page
 
     mangas.must_equal [ ["Naruto", "/first-manga"], 
                         ["Bleach", "/second-manga"], 
@@ -23,7 +28,10 @@ describe MangaCrawler::Crawler do
     css_path = "a"
     html_field = :href
 
-    chapters = crawler.get_chapters sample_manga_page, css_path, nil, html_field
+    chapters_page_parameters = Website::Parameters.new(base_url, sample_manga_page, css_path, html_field)
+    manga_page = Website::Page.new(chapters_page_parameters)
+
+    chapters = crawler.get_chapters manga_page
 
     chapters.must_equal [ ["Chapter 1", "/first-manga/1"], 
                           ["Chapter 2", "/second-manga/2"], 

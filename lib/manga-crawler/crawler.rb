@@ -4,25 +4,18 @@ require 'open-uri'
 module MangaCrawler
   class Crawler
 
-    # Returns an array of pairs. The first position contains the 
-    # manga name and the second position the manga link
-    # Params:
-    # +index_link+:: string with the url containing the index of all mangas
-    # +css_path+:: string of a css path format of the links you want to collect
-    # +css_pagination+:: string with the css path to the next page link
-    # +html_field+:: simbol of the field that has the link
-    def get_mangas index_link, css_path, css_pagination, html_field
+    def get_mangas website_index
 
       result = Array.new
 
-      html_index = Nokogiri::HTML(open(index_link))
+      html_index = Nokogiri::HTML(open(website_index.params.current_url))
 
       #find all content that matches with the css_path
-      links = html_index.css(css_path)
+      links = html_index.css(website_index.params.css_path)
 
       #find all content from the anchor nodes found in last search
       links.each do |anchor|
-        result.push([anchor.content, anchor[html_field]])
+        result.push([anchor.content, anchor[website_index.params.html_field]])
       end
 
       #TODO
@@ -32,17 +25,10 @@ module MangaCrawler
       return result
     end
 
-    # Returns the chapters information of a manga. It uses the same
-    # logic of get_mangas.
-    # Params:
-    # +manga_link+:: string with the url containing the manga_link
-    # +css_path+:: string of the css path format of the links you want to collect
-    # +css_pagination+:: string with the css path to the next page link
-    # +html_field+:: simbol of the field that has the link 
-    def get_chapters manga_link, css_path, css_pagination, html_field
+    def get_chapters website_manga
       #TODO
       #uses the same logic of get_mangas
-      return get_mangas manga_link, css_path, css_pagination, html_field
+      return get_mangas website_manga
     end
 
     # Returns the direct links of all pages from a specific chapter. It uses two
