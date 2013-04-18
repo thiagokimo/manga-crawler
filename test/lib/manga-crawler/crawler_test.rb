@@ -7,8 +7,7 @@ describe MangaCrawler::Crawler do
 
   it "must retrieve mangas" do
 
-    
-    sample_index_page = File.open("test/samples/index-page.html")
+    sample_index_page = File.open("test/fixtures/index.html")
     css_path = "a"
     html_field = :href
 
@@ -17,15 +16,15 @@ describe MangaCrawler::Crawler do
     
     mangas = crawler.get_mangas index_page
 
-    mangas.must_equal [ ["Naruto", "/first-manga"], 
-                        ["Bleach", "/second-manga"], 
-                        ["One Piece", "/third-manga"] ]
+    mangas.must_equal [ ["Naruto", "Naruto/naruto.html"], 
+                        ["Bleach", "Bleach/bleach.html"], 
+                        ["One Piece", "OnePiece/one_piece.html"] ]
   end
 
   it "must retrieve chapters" do
     
-    sample_manga_page = File.open("test/samples/manga-page.html")
-    css_path = "a"
+    sample_manga_page = File.open("test/fixtures/Bleach/bleach.html")
+    css_path = ".download-link"
     html_field = :href
 
     params = Website::Parameters.new(base_url, sample_manga_page, css_path, html_field)
@@ -33,14 +32,14 @@ describe MangaCrawler::Crawler do
 
     chapters = crawler.get_chapters manga_page
 
-    chapters.must_equal [ ["Chapter 1", "/first-manga/1"], 
-                          ["Chapter 2", "/second-manga/2"], 
-                          ["Chapter 3", "/third-manga/3"] ]
+    chapters.must_equal [ ["Bleach chapter 1", "chapters/1/1.html"], 
+                          ["Bleach chapter 2", "chapters/2/1.html"], 
+                          ["Bleach chapter 3", "chapters/3/1.html"] ]
   end
 
   it "must retrieve a direct image link from a page" do
     
-    sample_image_page = File.open("test/samples/image-page.html")
+    sample_image_page = File.open("test/fixtures/naruto/chapters/1/1.html")
     css_path = "#img"
     html_field = :src
 
@@ -49,13 +48,13 @@ describe MangaCrawler::Crawler do
 
     image = crawler.get_image_from_page image_page
 
-    image.must_equal "image.jpg"
+    image.must_equal "duck.jpg"
   end
 
   it "must retrieve all pages links from a chapter" do
 
-    sample_image_page = File.open("test/samples/image-page.html")
-    css_path = "#pageMenu option"
+    sample_image_page = File.open("test/fixtures/OnePiece/chapters/2/1.html")
+    css_path = "#page_switch option"
     html_field = :value
 
     params = Website::Parameters.new(base_url, sample_image_page, css_path, html_field)
@@ -63,9 +62,7 @@ describe MangaCrawler::Crawler do
     
     pages_links = crawler.get_pages_links_from_chapter pages
 
-    pages_links.must_equal [ ["1", "/first-manga/1/1"],
-                             ["2", "/first-manga/1/2"], 
-                             ["3", "/first-manga/1/3"] ]
+    pages_links.must_equal [ ["1", "1.html"], ["2", "2.html"] ]
 
   end
 
