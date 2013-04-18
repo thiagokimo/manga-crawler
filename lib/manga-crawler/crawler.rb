@@ -31,25 +31,19 @@ module MangaCrawler
       return get_mangas manga_website
     end
 
-    # Returns the direct links of all pages from a specific chapter. It uses two
-    # methods: 'get_pages_links_from_chapter' and 'get_image_from_page'.
-    # Params:
-    # +chapter_link+:: string with the chapter
-    # +css_pages_path+:: string with the CSS path to the pages links
-    # +pages_html_field+:: HTML field with the page link value
-    # +css_image_path+:: CSS path to the image
-    # +image_html_field+:: HTML field with the direct's image url
-    # +url_base+:: Site´s base url
-    def get_pages chapter_website, image_website
+    def get_pages chapter_website, css_image_path
       
       result = Array.new
 
-      pages_links = get_pages_links_from_chapter chapter_website.params.base_url + chapter_website.params.current_url, 
-                                                  chapter_website.params.css_path, chapter_website.params.html_field
+      pages_links = get_pages_links_from_chapter chapter_website
 
       pages_links.each do |page|
-        result.push( get_image_from_page image_website.params.base_url + page[1], image_website.params.css_path, 
-                                                                                    image_website.params.html_field )
+        
+        current_url = chapter_website.params.base_url + page[1]
+
+        params = Website::Parameters.new(chapter_website.params.base_url, current_url, css_image_path, :src)
+
+        result.push( get_image_from_page Website::Page.new(params) )
       end
 
       return result
