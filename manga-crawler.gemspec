@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["kimobr@gmail.com"]
   spec.description   = %q{ A gem that collects mangas from websites}
   spec.summary       = %q{ Retrieve basic manga information }
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/thiagokimo/manga-crawler"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
