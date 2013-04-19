@@ -1,10 +1,13 @@
 require 'nokogiri'
 require 'open-uri'
+require 'time'
 
 module MangaCrawler
   class Crawler
 
     def get_mangas index_website
+
+      start_time = Time.now
 
       result = Array.new
 
@@ -22,6 +25,11 @@ module MangaCrawler
       #if has a css_pagination, use recursion
       #example: result += get_mangas next_link, css_path, css_pagination
 
+      end_time = Time.now
+
+      puts "\nIndex completed!"
+      puts "Elapsed time: #{end_time-start_time} seconds."
+
       return result
     end
 
@@ -33,6 +41,8 @@ module MangaCrawler
 
     def get_pages chapter_website, css_image_path
       
+      start_time = Time.now
+
       result = Array.new
 
       pages_links = get_pages_links_from_chapter chapter_website
@@ -45,6 +55,11 @@ module MangaCrawler
 
         result.push( get_image_from_page Website::Page.new(params) )
       end
+
+      end_time = Time.now
+
+      puts "\mCollect pages completed!"
+      puts "Elapsed time: #{end_time-start_time} seconds."
 
       return result
 
