@@ -67,13 +67,20 @@ describe MangaCrawler::Crawler do
   end
 
   it "must collect all pages from a given chapter" do
-    link = "https://starkana.me/manga/0/A_Princess_and_a_Bum_(Manhwa)/chapter/7"
+    
+    link = "test/fixtures/Bleach/chapters/1/1.html"
+    sample_chapter_page = File.open(link)
+
+    base_url = File.absolute_path(sample_chapter_page).gsub(/test\/fixtures\/Bleach\/chapters\/1\/1.html/,"")
+
     css_pages_path = "#page_switch option"
     pages_html_field = :value
 
-    params = Website::Parameters.new("https://starkana.me", link, css_pages_path, pages_html_field)
+    params = Website::Parameters.new(base_url, link, css_pages_path, pages_html_field)
     chapter_page = Website::Page.new(params)
 
-    crawler.get_pages chapter_page, "#pic img"
+    pages = crawler.get_pages chapter_page, "#img"
+
+    pages.must_equal ["mushroom_risotto.jpg", "vegetable_curry.jpg"]
   end
 end

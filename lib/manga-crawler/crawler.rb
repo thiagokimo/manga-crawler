@@ -45,7 +45,7 @@ module MangaCrawler
 
       result = Array.new
 
-      pages_links = self.get_pages_links_from_chapter chapter_website
+      pages_links = get_pages_links_from_chapter chapter_website
 
       pages_links.each do |page|
         
@@ -58,7 +58,7 @@ module MangaCrawler
 
       end_time = Time.now
 
-      puts "\mCollect pages completed!"
+      puts "\nCollect pages completed!"
       puts "Elapsed time: #{end_time-start_time} seconds."
 
       return result
