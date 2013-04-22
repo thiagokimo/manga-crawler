@@ -82,9 +82,13 @@ module MangaCrawler
 
     def get_image_from_page image_website
 
-      html_image = Nokogiri::HTML(open(image_website.params.current_url))
+      begin
+        html_image = Nokogiri::HTML(open(image_website.params.current_url))
 
-      image_link = html_image.at_css(image_website.params.css_path)[image_website.params.html_field]
+        image_link = html_image.at_css(image_website.params.css_path)[image_website.params.html_field]
+      rescue Exception => e
+        p "Error trying to access: #{image_website.params.current_url}"
+      end
 
       return image_link
     end
