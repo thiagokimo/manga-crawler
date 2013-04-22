@@ -36,7 +36,7 @@ module MangaCrawler
     def get_chapters manga_website
       #TODO
       #uses the same logic of get_mangas
-      return get_mangas manga_website
+      return self.get_mangas manga_website
     end
 
     def get_pages chapter_website, css_image_path
@@ -45,7 +45,7 @@ module MangaCrawler
 
       result = Array.new
 
-      pages_links = get_pages_links_from_chapter chapter_website
+      pages_links = self.get_pages_links_from_chapter chapter_website
 
       pages_links.each do |page|
         
@@ -53,7 +53,7 @@ module MangaCrawler
 
         params = Website::Parameters.new(chapter_website.params.base_url, current_url, css_image_path, :src)
 
-        result.push( get_image_from_page Website::Page.new(params) )
+        result.push( self.get_image_from_page Website::Page.new(params) )
       end
 
       end_time = Time.now
