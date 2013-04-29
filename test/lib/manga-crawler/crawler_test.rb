@@ -101,4 +101,6 @@ describe MangaCrawler::Crawler do
 
     pages.must_equal [nil, "vegetable_curry.jpg"]
   end
+
+  it "must output results in json"
 end
