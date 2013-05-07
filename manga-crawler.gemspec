@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "manga-crawler"
   spec.version       = MangaCrawler::VERSION
   spec.authors       = ["Thiago Rocha"]
-  spec.email         = ["kimobr@gmail.com"]
+  spec.email         = ["thiago@kimo.io"]
   spec.description   = %q{ A gem that collects mangas from websites}
   spec.summary       = %q{ Retrieve basic manga information }
   spec.homepage      = "https://github.com/thiagokimo/manga-crawler"
