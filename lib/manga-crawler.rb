@@ -1,4 +1,2 @@
-require "manga-crawler/version"
-require "manga-crawler/crawler"
-require "website/parameters"
-require "website/page"
+require_relative "manga-crawler/version"
+require_relative "manga-crawler/crawler"
