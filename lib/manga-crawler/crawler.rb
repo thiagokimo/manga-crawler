@@ -4,6 +4,10 @@ require 'open-uri'
 module MangaCrawler
   class Crawler
     
+    def initialize(base_url)
+      @base_url = base_url
+    end
+
     def get_mangas(mangas_url, css_path_to_mangas)
       get_content(mangas_url,css_path_to_mangas, :href)
     end
@@ -15,9 +19,9 @@ module MangaCrawler
     def get_pages(chapter_url, css_path_to_pages, css_path_to_image, image_attr)
       pages_elements = get_content(chapter_url, css_path_to_pages, :value)
 
-     pages_elements.collect do |page|
-       get_content(page[1], css_path_to_image, image_attr).first[1]
-     end
+      pages_elements.collect do |page|
+        get_content(@base_url + page[1], css_path_to_image, image_attr).first[1]
+      end
     end
     
     private

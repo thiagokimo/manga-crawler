@@ -5,6 +5,7 @@ module MangaCrawler
 
     before do
       @url = File.open("test/sample_website/index.html","r")
+      @base_url = "test/sample_website/"
       @sample_manga_page = File.open("test/sample_website/Bleach/bleach.html","r") 
       @css_path_to_mangas = "a"
       @css_path_to_chapters = ".download-link"
@@ -15,7 +16,7 @@ module MangaCrawler
     end
 
     it "must get all mangas from a website" do
-      crawler = Crawler.new
+      crawler = Crawler.new @base_url
 
       expected_manga_urls = [
                               ["Naruto", "Naruto/naruto.html"],
@@ -27,7 +28,7 @@ module MangaCrawler
     end
 
     it "must retrieve the chapters of a manga page" do
-      crawler = Crawler.new
+      crawler = Crawler.new @base_url
 
       expected_chapters = [
                               ["Bleach chapter 1", "chapters/1/1.html"],
@@ -39,7 +40,7 @@ module MangaCrawler
     end
 
     it "must retrieve the pages of a chapter" do
-      crawler = Crawler.new
+      crawler = Crawler.new @base_url
       expected_pages = ["mushroom_risotto.jpg", "vegetable_curry.jpg"]
       
       crawler.get_pages(@chapter_page, @css_path_to_pages, @css_path_to_image, @image_attr).must_equal expected_pages
